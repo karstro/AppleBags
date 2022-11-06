@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>Karst.Backer</groupId>
-	<artifactId>AppleBags</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>applebags</artifactId>
+	<version>latest</version>
 	<name>AppleBags</name>
 	<description>A simple webAPI for AppleBags</description>
 	<properties>
