@@ -24,6 +24,9 @@ public class AppleBagsApplication {
 
 	@GetMapping("/GetAppleBags")
 	public String GetAppleBags(@RequestParam(value = "amount", defaultValue = "3") int Amount) {
+		if (Amount < 0) {
+			throw new IllegalArgumentException("amount must be greater than 0.");
+		}
 		Amount = Math.min(Amount, this.Bags.size());
 		String BagsOutput = "";
 		for (int i = 0; i < Amount; i++) {
@@ -38,7 +41,7 @@ public class AppleBagsApplication {
         Random rand = new Random();
         String S = "";
         for (int i = 0; i < Length; i++) {
-            S += Characters.charAt(rand.nextInt(26));
+            S += Characters.charAt(rand.nextInt(26)) + "\n";
         }
         return S;
     }
@@ -54,7 +57,7 @@ public class AppleBagsApplication {
 	}
 
 	@GetMapping("/CreateAppleBag")
-	public void CreateAppleBag(
+	public String CreateAppleBag(
 								@RequestParam(value = "apples") int Apples,
 								@RequestParam(value = "supplier") String Supplier,
 								@RequestParam(value = "packedOn") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate PackedOn,
@@ -66,5 +69,6 @@ public class AppleBagsApplication {
 		} while (GetBagById(Id) != null);
 
 		this.Bags.add(new AppleBag(Id, Apples, Supplier, PackedOn, Price));
+		return "Succes";
 	}
 }

@@ -44,10 +44,15 @@ public class AppleBag {
         return this.Id;
     }
 
-    // @Override
-    // public String toString() {
-    //     JSONObject obj = ;
-    //     return obj.toString();
-    //     Integer.toString(Amount)
-    // }
+    @Override
+    public String toString() {
+        String Json = "{\n";
+        Json +=       "  \"Id\":\"" + Id + "\",\n";
+        Json +=       "  \"Apples\":\"" + Integer.toString(Apples) + "\",\n";
+        Json +=       "  \"Supplier\":\"" + Supplier + "\",\n";
+        Json +=       "  \"PackedOn\":\"" + PackedOn.toString() + "\",\n";
+        Json +=       "  \"Price\":\"" + Float.toString(Price) + "\"\n";
+        Json +=       "}";
+        return Json;
+    }
 }
