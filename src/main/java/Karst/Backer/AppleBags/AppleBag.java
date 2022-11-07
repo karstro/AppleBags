@@ -3,6 +3,7 @@ package Karst.Backer.AppleBags;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+// a class to validate and store all information about a bag of apples
 public class AppleBag {
 
     private String Id;
@@ -12,8 +13,10 @@ public class AppleBag {
     private float Price;
 
     AppleBag(String Id, int Apples, String Supplier, LocalDate PackedOn, float Price) {
+        // Id is already validated on creation
         this.Id = Id;
 
+        // validate each input
         if (Apples >= 1 && Apples <= 100) {
             this.Apples = Apples;
         } else {
@@ -40,6 +43,7 @@ public class AppleBag {
         }
     }
 
+    // simple getter for Id
     public String GetId() {
         return this.Id;
     }

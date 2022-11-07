@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @RestController
 @SpringBootApplication
 public class AppleBagsApplication {
-
+	// list to keep track of all applebags that were added to the application
 	List<AppleBag> Bags = new ArrayList<AppleBag>();
 
 	public static void main(String[] args) {
