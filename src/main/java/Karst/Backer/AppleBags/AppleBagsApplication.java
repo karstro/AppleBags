@@ -24,17 +24,21 @@ public class AppleBagsApplication {
 		SpringApplication.run(AppleBagsApplication.class, args);
 	}
 
+	// Get a given amount of applebags as JSON, default to 3
 	@GetMapping("/GetAppleBags")
 	public String GetAppleBags(@RequestParam(value = "amount", defaultValue = "3") int Amount) {
 		if (Amount < 0) {
-			throw new IllegalArgumentException("amount must be greater than 0.");
+			throw new ResponseStatusException(
+				HttpStatus.BAD_REQUEST, 
+				"amount must be greater than 0."
+			);
 		}
 		Amount = Math.min(Amount, this.Bags.size());
-		String BagsOutput = "";
+		String BagsOutput = "{";
 		for (int i = 0; i < Amount; i++) {
 			BagsOutput += this.Bags.get(i).toString() + "\n";
 		}
-		return BagsOutput;
+		return BagsOutput + "}";
 	}
 
 	// generates a random string of capital letters of given length
