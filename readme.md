@@ -1,9 +1,11 @@
 # Installation and execution
 ## Windows
 ./mvnw.cmd spring-boot:build-image
+
 docker run -d -p 8080:8080 applebags
 ## Linux
 ./mvnw spring-boot:build-image
+
 docker run -d -p 8080:8080 applebags
 
 # Testing the app
