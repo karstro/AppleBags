@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.*;
 
 import java.util.Random;
 import java.util.List;
@@ -30,7 +32,7 @@ public class AppleBagsApplication {
 		Amount = Math.min(Amount, this.Bags.size());
 		String BagsOutput = "";
 		for (int i = 0; i < Amount; i++) {
-			BagsOutput += this.Bags.get(i).toString();
+			BagsOutput += this.Bags.get(i).toString() + "\n";
 		}
 		return BagsOutput;
 	}
@@ -41,7 +43,7 @@ public class AppleBagsApplication {
         Random rand = new Random();
         String S = "";
         for (int i = 0; i < Length; i++) {
-            S += Characters.charAt(rand.nextInt(26)) + "\n";
+            S += Characters.charAt(rand.nextInt(26));
         }
         return S;
     }
@@ -56,6 +58,7 @@ public class AppleBagsApplication {
 		return null;
 	}
 
+	// create an applebag and add it to the list if the arguments are valid
 	@GetMapping("/CreateAppleBag")
 	public String CreateAppleBag(
 								@RequestParam(value = "apples") int Apples,
@@ -63,12 +66,21 @@ public class AppleBagsApplication {
 								@RequestParam(value = "packedOn") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate PackedOn,
 								@RequestParam(value = "price") float Price
 							) {
+		// Generate an Id (random string), try again if it is already in use
 		String Id;
 		do {
 			Id = RandomString(5);
 		} while (GetBagById(Id) != null);
 
-		this.Bags.add(new AppleBag(Id, Apples, Supplier, PackedOn, Price));
-		return "Succes";
+		// if an argument is invalid, return the error message to the requestor
+		try {
+			this.Bags.add(new AppleBag(Id, Apples, Supplier, PackedOn, Price));
+		} catch(IllegalArgumentException e) {
+			throw new ResponseStatusException(
+				HttpStatus.BAD_REQUEST, 
+				e.getMessage()
+			);
+		}
+		return "Success";
 	}
 }
