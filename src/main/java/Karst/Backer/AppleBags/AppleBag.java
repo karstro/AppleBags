@@ -2,6 +2,8 @@ package Karst.Backer.AppleBags;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 // a class to validate and store all information about a bag of apples
 public class AppleBag {
@@ -10,9 +12,9 @@ public class AppleBag {
     private int Apples;
     private String Supplier;
     private LocalDate PackedOn;
-    private float Price;
+    private double Price;
 
-    AppleBag(String Id, int Apples, String Supplier, LocalDate PackedOn, float Price) {
+    AppleBag(String Id, int Apples, String Supplier, LocalDate PackedOn, double Price) {
         // Id is already validated on creation
         this.Id = Id;
 
@@ -20,26 +22,26 @@ public class AppleBag {
         if (Apples >= 1 && Apples <= 100) {
             this.Apples = Apples;
         } else {
-            throw new IllegalArgumentException("Number of Apples in a bag must be at least 1 and no more than 100.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Number of Apples in a bag must be at least 1 and no more than 100.");
         }
 
         String[] ValidSuppliers = {"Royal Gala", "Pink Lady", "Kanzi Apple", "Elstar Apples"};
         if (Arrays.asList(ValidSuppliers).contains(Supplier)) {
             this.Supplier = Supplier;
         } else {
-            throw new IllegalArgumentException("Supplier must be one of \"Royal Gala\", \"Pink Lady\", \"Kanzi Apple\", \"Elstar Apples\".");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Supplier must be one of \"Royal Gala\", \"Pink Lady\", \"Kanzi Apple\", \"Elstar Apples\".");
         }
 
         if (LocalDate.now().compareTo(PackedOn) >= 0) {
             this.PackedOn = PackedOn;
         } else {
-            throw new IllegalArgumentException("Packed on cannot be in the future.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Packed on cannot be in the future.");
         }
         
         if (Price >= 1 && Price <= 50) {
             this.Price = Price;
         } else {
-            throw new IllegalArgumentException("Price must be at least 1 and no more than 50.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price must be at least 1 and no more than 50.");
         }
     }
 
@@ -56,7 +58,7 @@ public class AppleBag {
         Json +=       "  \"Apples\":" + Integer.toString(Apples) + ",\n";
         Json +=       "  \"Supplier\":\"" + Supplier + "\",\n";
         Json +=       "  \"PackedOn\":\"" + PackedOn.toString() + "\",\n";
-        Json +=       "  \"Price\":" + Float.toString(Price) + "\n";
+        Json +=       "  \"Price\":" + Double.toString(Price) + "\n";
         Json +=       "}";
         return Json;
     }
