@@ -32,7 +32,7 @@ public class AppleBagsApplication {
 
 	// Get a given amount of applebags as JSON, default to 3
 	@GetMapping()
-	public String getAppleBags(@RequestBody Map<String, Object> request) {
+	public List<AppleBag> getAppleBags(@RequestBody Map<String, Object> request) {
 		// retrieve and validate amount
 		int amount;
 		if (request.containsKey("amount")) {
@@ -49,14 +49,7 @@ public class AppleBagsApplication {
 		amount = Math.min(amount, this.bags.size());
 
 		// construct the response
-		String bagsOutput = "{";
-		for (int i = 0; i < amount; i++) {
-			if (i != 0) {
-				bagsOutput += ",\n";
-			}
-			bagsOutput += this.bags.get(i).toString();
-		}
-		return bagsOutput + "}";
+		return this.bags.subList(0, amount);
 	}
 
 	// generates a random string of capital letters of given length
@@ -73,7 +66,7 @@ public class AppleBagsApplication {
 	// get an AppleBag from the bags list if its Id matches, otherwise return null
 	private AppleBag getBagById(String id) {
 		for (int i = 0; i < this.bags.size(); i++) {
-			if (this.bags.get(i).GetId() == id) {
+			if (this.bags.get(i).getId() == id) {
 				return this.bags.get(i);
 			}
 		}

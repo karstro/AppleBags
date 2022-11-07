@@ -5,8 +5,10 @@ import java.util.Arrays;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+
 // a class to validate and store all information about a bag of apples
-public class AppleBag {
+public class AppleBag implements Serializable{
 
     private String Id;
     private int Apples;
@@ -14,11 +16,52 @@ public class AppleBag {
     private LocalDate PackedOn;
     private double Price;
 
+    // getters and setters for serialization
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public int getApples() {
+        return Apples;
+    }
+
+    public void setApples(int apples) {
+        Apples = apples;
+    }
+
+    public String getSupplier() {
+        return Supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        Supplier = supplier;
+    }
+    
+    public LocalDate getPackedOn() {
+        return PackedOn;
+    }
+
+    public void setPackedOn(LocalDate packedOn) {
+        PackedOn = packedOn;
+    }
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
+    }
+
     AppleBag(String Id, int Apples, String Supplier, LocalDate PackedOn, double Price) {
         // Id is already validated on creation
         this.Id = Id;
 
-        // validate each input
+        // validate each input before setting them
         if (Apples >= 1 && Apples <= 100) {
             this.Apples = Apples;
         } else {
@@ -43,23 +86,5 @@ public class AppleBag {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price must be at least 1 and no more than 50.");
         }
-    }
-
-    // simple getter for Id
-    public String GetId() {
-        return this.Id;
-    }
-
-    // show details of this bag as a JSON string
-    @Override
-    public String toString() {
-        String Json = "{\n";
-        Json +=       "  \"Id\":\"" + Id + "\",\n";
-        Json +=       "  \"Apples\":" + Integer.toString(Apples) + ",\n";
-        Json +=       "  \"Supplier\":\"" + Supplier + "\",\n";
-        Json +=       "  \"PackedOn\":\"" + PackedOn.toString() + "\",\n";
-        Json +=       "  \"Price\":" + Double.toString(Price) + "\n";
-        Json +=       "}";
-        return Json;
     }
 }
