@@ -36,9 +36,6 @@ Get a given amount of applebags as JSON. If no amount is given, up to three are 
 #### arguments
 | name      | type      | mandatory | description |
 | --------- | --------- | --------- | ----------- |
-| amount    | integer   | no        | the amount of applebags to get
+| amount    | integer   | no        | the amount of applebags to get as a url variable |
 #### example:
-GET http://localhost:8080/
-{
-    "amount":5
-}
+GET http://localhost:8080/?amount=5
